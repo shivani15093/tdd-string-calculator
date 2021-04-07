@@ -1,5 +1,8 @@
 package tdd.string.calculator.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringCalculator {
     public static int add(String numbers){
         String defaultDelimiter = ",";
@@ -28,17 +31,34 @@ public class StringCalculator {
         }
     }
 
-
     private static int calculateSum(String numbers, String delimiter) {
-        int sum = 0;
+        List<Integer> positive = new ArrayList<>();
+        List<Integer> negative = new ArrayList<>();
         if(!numbers.isEmpty()){
             String[] splitNewLine = numbers.split("\n");
             for(String snl : splitNewLine){
                 String[] splitDelim = snl.split(delimiter);
                 for(String sc : splitDelim){
-                    sum += Integer.parseInt(sc);
+                    int num = Integer.parseInt(sc);
+                    if(num<0){
+                        negative.add(num);
+                    }
+                    else{
+                        positive.add(num);
+                    }
+
                 }
             }
+        }
+        if(negative.size()>0){
+            throw new NegativeNumberException("Negatives not allowed - " + negative);
+        }
+        return sum(positive);
+    }
+    private static int sum(List<Integer> listOfPositiveIntegers){
+        int sum = 0;
+        for(int i : listOfPositiveIntegers){
+            sum += i;
         }
         return sum;
     }

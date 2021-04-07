@@ -1,7 +1,9 @@
 package tdd.string.calculator.app;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class StringCalculatorTests {
     // Test Cases for Part 1 -> handle only for 0,1,2 numbers
@@ -63,9 +65,28 @@ public class StringCalculatorTests {
     }
 
     //Part 5 -> Provide negative number
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
     @Test
-    public void negativeNumbersTest(){
-        Assert.assertEquals(11, StringCalculator.add("1,2,-3"));
+    public void singleNegativeNumberTest(){
+        exceptionRule.expect(NegativeNumberException.class);
+        exceptionRule.expectMessage("Negatives not allowed - [-3]");
+        StringCalculator.add("1,2,-3");
+    }
+
+    // Part 6 -> Provide multiple negative numbers
+    @Test
+    public void multipleNegativeNumbersTest1(){
+        exceptionRule.expect(NegativeNumberException.class);
+        exceptionRule.expectMessage("Negatives not allowed - [-2, -3]");
+        StringCalculator.add("1,-2,-3");
+    }
+
+    @Test
+    public void multipleNegativeNumbersTest2(){
+        exceptionRule.expect(NegativeNumberException.class);
+        exceptionRule.expectMessage("Negatives not allowed - [-1, -4]");
+        StringCalculator.add("//;\n1;-1\n2;3;-4");
     }
 
 }
