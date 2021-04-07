@@ -24,4 +24,10 @@ public class StringCalculatorTests {
         Assert.assertEquals(15, StringCalculator.add("1,2,3,4,5"));
     }
 
+    // Test Cases for Part 3 -> handle for \n or , as delimiter
+    @Test
+    public void newLineAsDelimiterTest(){
+        Assert.assertEquals(36, StringCalculator.add("1\n2,3,4,5\n6,7,8"));
+    }
+
 }
