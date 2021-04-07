@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringCalculator {
-    private static int count = 0;
 
-    public static int getCount() {
-        return count;
-    }
+    public static int count = 0;
 
-    public static int add(String numbers) throws NegativeNumberException{
-        count++;
+    public int add(String numbers) throws NegativeNumberException{
+        incrementCalledCount();
         String defaultDelimiter = AppConstants.DEFAULT_DELIMITER;
         if(numbers.length()>=2 && numbers.substring(0,2).equalsIgnoreCase(AppConstants.CUSTOM_DELIMITER_PREFIX)){
             String delimiter = "";
@@ -38,7 +35,7 @@ public class StringCalculator {
         }
     }
 
-    private static int calculateSum(String numbers, String delimiter) throws NegativeNumberException {
+    private int calculateSum(String numbers, String delimiter) throws NegativeNumberException {
         List<Integer> positive = new ArrayList<>();
         List<Integer> negative = new ArrayList<>();
         if(!numbers.isEmpty()){
@@ -58,19 +55,24 @@ public class StringCalculator {
             }
         }
         if(negative.size()>0){
-            count++;
             throw new NegativeNumberException("Negatives not allowed - " + negative);
         }
         return sum(positive);
     }
-    private static int sum(List<Integer> listOfPositiveIntegers){
+
+    private int sum(List<Integer> listOfPositiveIntegers){
         int sum = 0;
         for(int i : listOfPositiveIntegers){
             sum += i;
         }
         return sum;
     }
-    public static int getCalledCount(){
+
+    public int getCalledCount(){
         return count;
+    }
+
+    private void incrementCalledCount(){
+        count = count+1;
     }
 }
