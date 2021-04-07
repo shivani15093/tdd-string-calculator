@@ -10,14 +10,17 @@ public class StringCalculatorTests {
     @Test
     public void emptyStringTest(){
         Assert.assertEquals(0, StringCalculator.add(""));
+        Assert.assertEquals(1, StringCalculator.getCalledCount());
     }
     @Test
     public void singleNumberStringTest(){
         Assert.assertEquals(1, StringCalculator.add("1"));
+        Assert.assertEquals(2, StringCalculator.getCalledCount());
     }
     @Test
     public void twoNumbersStringTest(){
         Assert.assertEquals(3, StringCalculator.add("1,2"));
+        Assert.assertEquals(3, StringCalculator.getCalledCount());
     }
 
     // Test Cases for Part 2 -> handle for any number of numbers

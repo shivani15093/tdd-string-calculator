@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringCalculator {
-    public static int add(String numbers){
-        String defaultDelimiter = ",";
-        if(numbers.length()>=2 && numbers.substring(0,2).equalsIgnoreCase("//")){
+    private static int count = 0;
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static int add(String numbers) throws NegativeNumberException{
+        count++;
+        String defaultDelimiter = AppConstants.DEFAULT_DELIMITER;
+        if(numbers.length()>=2 && numbers.substring(0,2).equalsIgnoreCase(AppConstants.CUSTOM_DELIMITER_PREFIX)){
             String delimiter = "";
             boolean numericFound = false;
             for(char d : numbers.substring(2).toCharArray()){
-                if(Character.isDigit(d) && delimiter.charAt(delimiter.length()-1)=='\n') {
+                if(Character.isDigit(d) && delimiter.charAt(delimiter.length()-1)==AppConstants.NEW_LINE_CHAR) {
                     numericFound = true;
                     delimiter = delimiter.substring(0, delimiter.length() - 1);
                     break;
@@ -31,11 +38,11 @@ public class StringCalculator {
         }
     }
 
-    private static int calculateSum(String numbers, String delimiter) {
+    private static int calculateSum(String numbers, String delimiter) throws NegativeNumberException {
         List<Integer> positive = new ArrayList<>();
         List<Integer> negative = new ArrayList<>();
         if(!numbers.isEmpty()){
-            String[] splitNewLine = numbers.split("\n");
+            String[] splitNewLine = numbers.split(AppConstants.NEW_LINE_STR);
             for(String snl : splitNewLine){
                 String[] splitDelim = snl.split(delimiter);
                 for(String sc : splitDelim){
@@ -51,6 +58,7 @@ public class StringCalculator {
             }
         }
         if(negative.size()>0){
+            count++;
             throw new NegativeNumberException("Negatives not allowed - " + negative);
         }
         return sum(positive);
@@ -61,5 +69,8 @@ public class StringCalculator {
             sum += i;
         }
         return sum;
+    }
+    public static int getCalledCount(){
+        return count;
     }
 }
